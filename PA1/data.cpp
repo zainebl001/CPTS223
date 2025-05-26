@@ -3,8 +3,8 @@
 Data::Data() 
 {
 	command = "";
-	destruction = desc;
-	points = pts;
+	description = "";
+	points = 0;
 }
 
 Data::Data(const std::string& cmd, const std::string& desc, int pts)

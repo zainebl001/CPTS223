@@ -7,7 +7,7 @@
 #include <ctime>
 #include <iomanip>
 
-Game::Game();
+Game::Game()
 {
 	numPlayers = 0;
 	srand(time(nullptr));
@@ -213,7 +213,7 @@ void Game::playQuestionRound(Player& player, int numQuestions)
 				std::cout << "\nCorrect! +" << currentCommand.getPoints() << " points" << std::endl;
 				player.totalPoints += currentCommand.getPoints();
 				pointsEarned += currentCommand.getPoints();
-				correctAnswers++
+				correctAnswers++;
 			}
 			else
 			{
@@ -222,6 +222,7 @@ void Game::playQuestionRound(Player& player, int numQuestions)
 				player.totalPoints -= 1;
 				pointsEarned -= 1;
 			}
+		}
 		else
 		{
 			std::cout << "\nInvalid choice! -1 point" << std::endl;
@@ -308,7 +309,7 @@ void Game::addCommand()
 	std::cin >> points;
 	std::cin.ignore();
 
-	if (points <= 0
+	if (points <= 0)
 	{
 		std::cout << "Points must be positive." << std::endl;
 		pauseScreen();
@@ -397,7 +398,7 @@ void Game::loadCommandsFromCSV()
 			std::string description = trim(tokens[1]);
 			int points = std::stoi(tokens[2]);
 
-			Data newCommands(command, description, points);
+			Data newCommand(command, description, points);
 			commands.insertAtFront(newCommand);
 		}
 	}
@@ -469,7 +470,7 @@ std::string Game::trim(const std::string& str)
 {
 	std::string result = str;
 
-	if (result.front() == '"' && result.back == '"')
+	if (result.front() == '"' && result.back() == '"')
 	{
 		result = result.substr(1, result.length() - 2);
 	}
@@ -482,6 +483,7 @@ std::string Game::trim(const std::string& str)
 	size_t end = result.find_last_not_of(" \n\r\n");
 
 	return result.substr(start, end - start + 1);
+}
 
 std::vector<std::string> Game::parseCSVLine(const std::string& line)
 {
@@ -505,7 +507,7 @@ std::vector<std::string> Game::parseCSVLine(const std::string& line)
 		}
 		else
 		{
-			curentToken += c;
+			currentToken += c;
 		}
 	}
 	tokens.push_back(currentToken);
@@ -519,7 +521,7 @@ int Game::findPlayerIndex(const std::string& playerName)
 	{
 		if (players[i].name == playerName)
 		{
-			return 1;
+			return i;
 		}
 	}
 	return -1;

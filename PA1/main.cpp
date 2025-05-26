@@ -12,7 +12,7 @@ int main()
 	{
 		std::cerr << "Error: " << e.what() << std::endl;
 		return 1;
-	{
+	}
 	catch (...)
 	{
 		std::cerr << "An unknown error occurred." << std::endl;
