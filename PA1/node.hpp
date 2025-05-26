@@ -26,7 +26,7 @@ template <typename T>
 Node<T>::Node() : data(), next(nullptr) {}
 
 template <typename T>
-Node<T>::Node()(const T& newData) : data(newData), next(nullptr) {}
+Node<T>::Node(const T& newData) : data(newData), next(nullptr) {}
 
 template <typename T>
 Node<T>::Node(const T& newData, Node<T>* newNext) : data(newData), next(newNext) {}
@@ -35,7 +35,7 @@ template <typename T>
 Node<T>::~Node(){}
 
 template <typename T>
-T Node<T>::getData const
+T Node<T>::getData() const
 {
 	return data;
 }

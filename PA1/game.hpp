@@ -13,7 +13,7 @@ struct Player
 	int totalPoints;
 
 	Player() : name(""), totalPoints(0) {}
-	Player(const std::string& n, int pts) : name(n), totalpoints(pts) {}
+	Player(const std::string& n, int pts) : name(n), totalPoints(pts) {}
 };
 
 class Game
@@ -30,7 +30,7 @@ private:
 	std::string trim(const std::string& str);
 	std::vector<std::string> parseCSVLine(const std::string& line);
 	int findPlayerIndex(const std::string& playerName);
-	void generateRandomOptions(const Data& correctCommand, std::vector<std::string>& options;
+	void generateRandomOptions(const Data& correctCommand, std::vector<std::string>& options);
 
 public:
 	Game();

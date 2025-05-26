@@ -6,7 +6,7 @@ int main(void)
 	try
 	{
 		Game linuxGame;
-		linuxGame.rungame();
+		linuxGame.runGame();
 	}
 	catch (const std::exception& e)
 	{
@@ -18,6 +18,5 @@ int main(void)
 		std::cerr << "An unknown error occurred." << std::endl;
 		return 1;
 	}
-		
 	return 0;
 }

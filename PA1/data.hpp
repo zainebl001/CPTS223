@@ -8,7 +8,7 @@ class Data
 {
 private:
 	std::string command;
-	std::string description
+	std::string description;
 	int points;
 
 public:
@@ -21,7 +21,7 @@ public:
 
 	~Data();
 
-	std::string getCommand const;
+	std::string getCommand () const;
 	std::string getDescription() const;
 	int getPoints() const;
 

@@ -15,6 +15,8 @@ public:
 	List(const List<T>& other);
 	~List();
 
+	List<T>& operator=(const List<T>& other);
+
 	void insertAtFront(const T& data);
 	void insertAtBack(const T& data);
 	bool removeNode(const T& data);
@@ -35,13 +37,13 @@ template <typename T>
 List<T>::List()
 {
 	head = nullptr;
-	size = 0
+	size = 0;
 }
 
 template <typename T>
 List<T>::List(const List<T>&other)
 {
-	head = nullprt;
+	head = nullptr;
 	size = 0;
 
 	Node<T>* current = other.head;
@@ -80,7 +82,7 @@ void List<T>::insertAtFront(const T& data)
 {
 	Node<T>* newNode = new Node<T>(data, head);
 	head = newNode;
-	size++
+	size++;
 }
 
 template <typename T>
@@ -101,7 +103,7 @@ void List<T>::insertAtBack(const T& data)
 		}
 		current->setNext(newNode);
 	}
-	size++
+	size++;
 }
 
 template <typename T>
@@ -122,7 +124,7 @@ bool List<T>::removeNode(const T& data)
 	}
 
 	Node<T>* current = head;
-	while <current->getNext() != nullptr)
+	while (current->getNext() != nullptr)
 	{
 		if (current->getNext()->getData() == data)
 		{
