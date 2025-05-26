@@ -1,5 +1,23 @@
+#include "Game.hpp"
 #include <iostream>
-int main() {
-    std::cout << "Hello from PA1!" << std::endl;
-    return 0;
+
+int main(void)
+{
+	try
+	{
+		Game linuxGame;
+		linuxGame.rungame();
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Error: " << e.what() << std::endl;
+		return 1;
+	{
+	catch (...)
+	{
+		std::cerr << "An unknown error occurred." << std::endl;
+		return 1;
+	}
+		
+	return 0;
 }
