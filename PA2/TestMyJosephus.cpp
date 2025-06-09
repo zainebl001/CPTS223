@@ -29,12 +29,12 @@ int main(int argc, char* argv[])
 	if (argc > 1 && string(argv[1]) == "vector") useList = false;
 	vector<string>  allCities = loadCities("destinations-1.csv");
 
-	int maxN = min(1025, static_cast<int>(allCities.size()));
+	int maxN = allCities.size();
 
 	ofstream log("results.log", ios::app);
 	vector<double> times;
 
-	for (int N = 1; N <= 1025; ++N)
+	for (int N = 1; N <= maxN; ++N)
 	{
 		int M = rand() % N + 1;
 		vector<string> subset(allCities.begin(), allCities.begin() + N);
@@ -44,13 +44,16 @@ int main(int argc, char* argv[])
 		{
 			ListMyJosephus game(M, N, subset);
 			while (game.currentSize() > 1) game.eliminateDestination();
-			game.eliminateDestination();
+			cout << (useList ? "List" : "Vector") << " N=" << N << ", M=" << M << ", Winner: ";
+			game.printAllDestinations();
 		}
 		else
 		{
 			VectorMyJosephus game(M, N, subset);
 			while (game.currentSize() > 1) game.eliminateDestination();
-			game.eliminateDestination();
+			cout << (useList ? "List" : "Vector") << " N=" << N << ", M=" << M << ", Winner: ";
+			game.printAllDestinations();
+
 		}
 		clock_t end = clock();
 
