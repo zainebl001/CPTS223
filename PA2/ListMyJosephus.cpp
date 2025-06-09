@@ -13,7 +13,7 @@ ListMyJosephus::~ListMyJosephus() { clear(); }
 
 void ListMyJosephus::clear() { circle.clear(); }
 
-int ListMyJosephus::currentSize const
+int ListMyJosephus::currentSize() const
 {
 	return circle.size();
 }
@@ -39,5 +39,5 @@ void ListMyJosephus::printAllDestinations() const
 	{
 		d.printDestinationName();
 	}
-	std::cout << std::endl
+	std::cout << std::endl;
 }

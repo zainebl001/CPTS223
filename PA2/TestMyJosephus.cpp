@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			VectorMyJosephus game(M, N, subset);
-			while (game.currentSize() > 1 game.eliminateDestination();
+			while (game.currentSize() > 1) game.eliminateDestination();
 			game.eliminateDestination();
 		}
 		clock_t end = clock();

@@ -31,7 +31,7 @@ void VectorMyJosephus::printAllDestinations() const
 {
 	for (const auto& d : circle)
 	{
-		d.printDestinationName()l
+		d.printDestinationName();
 	}
 	std::cout << std::endl;
 }
