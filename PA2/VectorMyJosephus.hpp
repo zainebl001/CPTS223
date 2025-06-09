@@ -6,7 +6,8 @@
 class VectorMyJosephus
 {
 private:
-	int M, N, index;
+	int M, N;
+	size_t index;
 	std::vector<Destination> circle;
 
 public:
