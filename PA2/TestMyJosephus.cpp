@@ -29,6 +29,8 @@ int main(int argc, char* argv[])
 	if (argc > 1 && string(argv[1]) == "vector") useList = false;
 	vector<string>  allCities = loadCities("destinations-1.csv");
 
+	int maxN = min(1025, static_cast<int>(allCities.size()));
+
 	ofstream log("results.log", ios::app);
 	vector<double> times;
 
