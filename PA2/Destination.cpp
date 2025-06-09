@@ -12,7 +12,7 @@ void Destination::printPosition() const
 
 void Destination::printDestinationName() const
 {
-	srd::cout << name << " ";
+	std::cout << name << " ";
 }
 
 int Destination::getPosition() const { return position; }

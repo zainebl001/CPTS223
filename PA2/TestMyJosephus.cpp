@@ -18,14 +18,14 @@ vector<string> loadCities(const string& filename)
 	{
 		stringstream ss(line);
 		string city;
-		while (getline((ss, city, ',')) cities.push_back(city);
+		while (getline(ss, city, ',')) cities.push_back(city);
 	}
 	return cities;
 }
 
 int main(int argc, char* argv[])
 {
-	bool uselist = true;
+	bool useList = true;
 	if (argc > 1 && string(argv[1]) == "vector") useList = false;
 	vector<string>  allCities = loadCities("destinations-1.csv");
 
@@ -46,8 +46,8 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			VectorMyJosephus game(M, N, Subset);
-			while (game.currentsize() > 1 game.eliminateDestination();
+			VectorMyJosephus game(M, N, subset);
+			while (game.currentSize() > 1 game.eliminateDestination();
 			game.eliminateDestination();
 		}
 		clock_t end = clock();

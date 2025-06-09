@@ -1,7 +1,7 @@
 #include "ListMyJosephus.hpp"
 #include <iostream>
 
-ListMyJosephus::ListMyJosephus(int m, int n, const std::vector<std::string& cities) : M(m), N(n)
+ListMyJosephus::ListMyJosephus(int m, int n, const std::vector<std::string>& cities) : M(m), N(n)
 {
 	for (int i = 0; i < N; i++)
 	{

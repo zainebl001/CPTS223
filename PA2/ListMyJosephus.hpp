@@ -2,12 +2,13 @@
 #define LISTMYJOSEPHUS_HPP
 #include <list>
 #include <string>
+#include <vector>
 #include "Destination.hpp"
 
 class ListMyJosephus
 {
 private:
-	int m, n;
+	int M, N;
 	std::list<Destination> circle;
 	std::list<Destination>::iterator cursor;
 

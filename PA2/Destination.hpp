@@ -10,7 +10,7 @@ public:
 	~Destination();
 	void printPosition() const;
 	void printDestinationName() const;
-	int getPosition const;
+	int getPosition() const;
 	std::string getName() const;
 
 private:
