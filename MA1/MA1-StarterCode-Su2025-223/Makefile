@@ -10,7 +10,7 @@ $(BST_EXEC): $(BST_OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 %.o: %.cpp BST.h
-	$(CXX) $(CXXFLAGS) -c %< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(BST_EXEC) *.o

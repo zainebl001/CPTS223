@@ -156,7 +156,7 @@ protected:
 
 		for (; !q.empty(); q.pop())
 		{
-			node<T>* curr = q.front();
+			Node<T>* curr = q.front();
 			out << curr-> value << " ";
 
 			if (curr->left) q.push(curr->left);
@@ -324,7 +324,7 @@ public:
 			}
 			makeEmpty();
 			_root = other._root;
-			other._root = nnullptr;
+			other._root = nullptr;
 		}
 		return *this;
 	}
