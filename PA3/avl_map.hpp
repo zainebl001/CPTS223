@@ -15,7 +15,7 @@ private:
 		int height;
 		Node* left;
 		Node* right;
-		Node(const Key& k, const Value& v) : key(k), value(v), left(nullptr), right(nullptr) {}
+		Node(const Key& k, const Value& v) : key(k), value(v), height(1), left(nullptr), right(nullptr) {}
 	};
 
 	Node* root = nullptr;
@@ -230,6 +230,21 @@ void avl_map<Key, Value>::iterator::pushLeft(Node* node)
 		stack.push(node);
 		node = node->left;
 	}
+}
+
+template <typename Key, typename Value>
+bool avl_map<Key, Value>::iterator::hasNext()
+{
+	return !stack.empty();
+}
+
+template <typename Key, typename Value>
+std::pair<Key, Value> avl_map<Key, Value>::iterator::next()
+{
+	Node* node = stack.top();
+	stack.pop();
+	pushLeft(node->right);
+	return { node->key, node->value };
 }
 
 #endif

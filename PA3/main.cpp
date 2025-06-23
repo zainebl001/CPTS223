@@ -96,6 +96,8 @@ int main()
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> dis(0, zipVec.size() - 1);
 
+
+
 	std::vector<int> randomZips;
 	for (int i = 0; i < 1000; ++i)
 	{
