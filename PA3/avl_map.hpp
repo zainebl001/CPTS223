@@ -216,4 +216,20 @@ void avl_map<Key, Value>::destroy(Node* node)
 	delete node;
 }
 
+template <typename Key, typename Value>
+avl_map<Key, Value>::iterator::iterator(Node* root)
+{
+	pushLeft(root);
+}
+
+template <typename Key, typename Value>
+void avl_map<Key, Value>::iterator::pushLeft(Node* node)
+{
+	while (node != nullptr)
+	{
+		stack.push(node);
+		node = node->left;
+	}
+}
+
 #endif

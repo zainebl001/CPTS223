@@ -33,8 +33,15 @@ int main()
 		int zip;
 
 		std::getline(ss, token, ',');
-		if (token.empty()) continue;
-		zip = std::stoi(token);
+		try
+		{
+			if (token.empty()) continue;
+			zip = std::stoi(token);
+		}
+		catch (const std::exception&)
+		{
+			continue;
+		}
 		zipList.push_back(zip);
 		zipVec.push_back(zip);
 
