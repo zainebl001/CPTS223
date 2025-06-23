@@ -15,7 +15,7 @@ int main()
 	std::ifstream file("uszips.csv");
 	if (!file.is_open())
 	{
-		std::cerr << "Failed to open file." << std::endl;
+        	std::cerr << "Failed to open uszips.csv" << std::endl;
 		return 1;
 	}
 	std::map<int, USCity> stdMap;
@@ -29,39 +29,68 @@ int main()
 	{
 		std::stringstream ss(line);
 		std::string token;
-		USCity city;
-		int zip;
+		std::vector<std::string> fields;
 
-		std::getline(ss, token, ',');
+		bool inQuotes = false;
+		std::string field;
+		char c;
+		while (ss.get(c))
+		{
+			if (c == '"' && (field.empty() || field.back() != '\\'))
+			{
+				inQuotes = !inQuotes;
+			}
+			else if (c == ',' && !inQuotes)
+			{
+				fields.push_back(field);
+				field.clear();
+			}
+			else
+			{
+				field += c;
+			}
+		}
+		fields.push_back(field);
+
+		if (fields.size() < 18 || fields[0].empty()) continue;
+
+		int zip;
 		try
 		{
-			if (token.empty()) continue;
-			zip = std::stoi(token);
-		}
-		catch (const std::exception&)
+			zip = std::stoi(fields[0]);
+        	}
+		catch (...)
 		{
 			continue;
 		}
+
+		USCity city;
+		city.lat = fields[1];
+		city.lng = fields[2];
+		city.city = fields[3];
+		city.state_id = fields[4];
+		city.state_name = fields[5];
+		city.zcta = fields[6];
+		city.parent_zcta = fields[7];
+		city.population = fields[8];
+		city.density = fields[9];
+		city.timezone = fields[17];
+
 		zipList.push_back(zip);
 		zipVec.push_back(zip);
 
-		std::getline(ss, city.lat, ',');
-		std::getline(ss, city.lng, ',');
-		std::getline(ss, city.city, ',');
-		std::getline(ss, city.state_id, ',');
-		std::getline(ss, city.state_name, ',');
-		std::getline(ss, city.zcta, ',');
-		std::getline(ss, city.parent_zcta, ',');
-		std::getline(ss, city.population, ',');
-		std::getline(ss, city.density, ',');
-
-		for (int i = 0; i < 7; ++i) std::getline(ss, token, ',');
-		std::getline(ss, city.timezone, ',');
 		stdMap[zip] = city;
 		avlMap.insert(zip, city);
 	}
 	file.close();
-	std::cout << "Parsed " << zipList.size() << " ZIP codes.\n" << std::endl;
+
+	std::cout << "Parsed " << zipList.size() << " ZIP codes.\n";
+
+	if (zipVec.empty())
+	{
+		std::cerr << "No ZIP codes available for lookup. Exiting.\n";
+		return 1;
+	}
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -80,6 +109,7 @@ int main()
 	}
 	auto end1 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> elapsedStd = end1 - start1;
+
 	auto start2 = std::chrono::high_resolution_clock::now();
 	for (int z : randomZips)
 	{
@@ -88,8 +118,8 @@ int main()
 	auto end2 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> elapsedAVL = end2 - start2;
 
-	std::cout << "std map lookup time: " << elapsedStd.count() << " seconds." << std::endl;
-	std::cout << "avl map lookup time: " << elapsedAVL.count() << " seconds." << std::endl;
+	std::cout << "std::map lookup time: " << elapsedStd.count() << " seconds\n";
+	std::cout << "avl_map lookup time: " << elapsedAVL.count() << " seconds\n";
 
 	return 0;
 }
