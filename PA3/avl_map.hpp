@@ -26,10 +26,11 @@ private:
 	Node* rotateRight(Node* y);
 	Node* insert(Node* node, const Key& key, const Value& value);
 	Node* erase(Node* node, const Key& key);
+	Node* minValueNode(Node* node);
 	Node* find(Node* node, const Key& key) const;
 	void destroy(Node* node);
 public:
-	alv_map() = default;
+	avl_map() = default;
 	~avl_map() { destroy(root); }
 
 	void insert(const Key& key, const Value& value);
@@ -115,7 +116,7 @@ typename avl_map<Key, Value>::Node* avl_map<Key, Value>::insert(Node* node, cons
 		return rotateLeft(node);
 	}
 
-	return node
+	return node;
 }
 
 template <typename Key, typename Value>
@@ -165,7 +166,7 @@ typename avl_map<Key, Value>::Node* avl_map<Key, Value>::erase(Node* node, const
 
 	if (!node) return node;
 	node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
-	int balace = getBalance(node);
+	int balance = getBalance(node);
 
 	if (balance > 1 && getBalance(node->left) >= 0) return rotateRight(node);
 	if (balance > 1 && getBalance(node->left) < 0)
@@ -173,8 +174,9 @@ typename avl_map<Key, Value>::Node* avl_map<Key, Value>::erase(Node* node, const
 		node->left = rotateLeft(node->left);
 		return rotateRight(node);
 	}
-	if (balance < -1 && getBalance(node->right <= 0) return rotateLeft(node);
-	if (balance , -1 && getBalnace(node->right > 0)
+	if (balance < -1 && getBalance(node->right <= 0)
+	return rotateLeft(node);
+	if (balance < -1 && getBalnace(node->right > 0)
 	{
 		node->right = rotateRight(node->right);
 		return rotateLeft(node);
@@ -199,7 +201,7 @@ typename avl_map<Key, Value>::Node* avl_map<Key, Value>::find(Node* node, const 
 }
 
 template <typename Key, typename Value>
-typename avl_map<Key, Value>::iterator avl_map<Key, Value>::find(const Key& key>
+typename avl_map<Key, Value>::iterator avl_map<Key, Value>::find(const Key& key)
 {
 	return iterator(find(root, key));
 }

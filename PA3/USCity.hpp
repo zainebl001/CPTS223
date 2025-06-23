@@ -5,6 +5,7 @@
 
 class USCity
 {
+public:
 	std::string lat;
 	std::string lng;
 	std::string city;
