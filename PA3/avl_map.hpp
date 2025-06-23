@@ -174,9 +174,10 @@ typename avl_map<Key, Value>::Node* avl_map<Key, Value>::erase(Node* node, const
 		node->left = rotateLeft(node->left);
 		return rotateRight(node);
 	}
-	if (balance < -1 && getBalance(node->right <= 0)
-	return rotateLeft(node);
-	if (balance < -1 && getBalnace(node->right > 0)
+	if (balance < -1 && getBalance(node->right) <= 0)
+		return rotateLeft(node);
+
+	if (balance < -1 && getBalance(node->right) > 0)
 	{
 		node->right = rotateRight(node->right);
 		return rotateLeft(node);

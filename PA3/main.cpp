@@ -19,15 +19,15 @@ int main()
 		return 1;
 	}
 	std::map<int, USCity> stdMap;
-	avl_map<int, USCity? avlMap;
+	avl_map<int, USCity> avlMap;
 	std::list<int> zipList;
 	std::vector<int> zipVec;
 	std::string line;
 	std::getline(file, line);
 
-	while (std::getline(file, line)
+	while (std::getline(file, line))
 	{
-		std::stringstream ss(line)
+		std::stringstream ss(line);
 		std::string token;
 		USCity city;
 		int zip;
@@ -61,7 +61,7 @@ int main()
 	std::uniform_int_distribution<> dis(0, zipVec.size() - 1);
 
 	std::vector<int> randomZips;
-	for (int = 0; i < 1000; ++i)
+	for (int i = 0; i < 1000; ++i)
 	{
 		randomZips.push_back(zipVec[dis(gen)]);
 	}
@@ -72,7 +72,7 @@ int main()
 		auto it = stdMap.find(z);
 	}
 	auto end1 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> elapsedStd end1 - start1;
+	std::chrono::duration<double> elapsedStd = end1 - start1;
 	auto start2 = std::chrono::high_resolution_clock::now();
 	for (int z : randomZips)
 	{
@@ -82,7 +82,7 @@ int main()
 	std::chrono::duration<double> elapsedAVL = end2 - start2;
 
 	std::cout << "std map lookup time: " << elapsedStd.count() << " seconds." << std::endl;
-	std::cout << "avl map lookup time: " << elapesdAVL.count() << " seconds." << std::endl;
+	std::cout << "avl map lookup time: " << elapsedAVL.count() << " seconds." << std::endl;
 
 	return 0;
 }
