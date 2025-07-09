@@ -13,7 +13,7 @@ HeapPriorityQueue::~HeapPriorityQueue()
 HeapPriorityQueue::HeapPriorityQueue(const HeapPriorityQueue& other)
 {
 	size = other.size;
-	for (int i = 0; i < size; ++i;
+	for (int i = 0; i < size; ++i)
 	{
 		heap[i] = other.heap[i];
 	}
@@ -24,7 +24,7 @@ HeapPriorityQueue& HeapPriorityQueue::operator=(const HeapPriorityQueue& other)
 	if (this != &other)
 	{
 		size = other.size;
-		for (int i = 0l i < size; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			heap[i] = other.heap[i];
 		}
