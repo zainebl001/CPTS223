@@ -109,6 +109,23 @@ void loadCSV(const string& filename)
 		if (p.category.empty()) p.category = "NA";
 		allProducts.push_back(p);
 		productMap.put(p.uniqId, p);
+		stringstream catStream(p.category);
+		string singleCategory;
+
+		while (getline(catStream, singleCategory, '|'))
+		{
+			singleCategory.erase(0, singleCategory.find_first_not_of(" \t"));
+			singleCategory.erase(singleCategory.find_last_not_of(" \t") + 1);
+			vector<Product>* list = categoryMap.get(singleCategory);
+			if (!list)
+			{
+				categoryMap.put(singleCategory, vector<Product>{p});
+			}
+			else
+			{
+				list->push_back(p);
+			}
+		}
 	}
 	file.close();
 }
@@ -131,17 +148,19 @@ void handleFind(const string& id)
 
 void handleListInventory(const string& category)
 {
-	bool found = false;
-	for (const Product& p : allProducts)
+	vector<Product>* list = categoryMap.get(category);
+	if (!list)
 	{
-		if (p.category.find(category) != string::npos)
-		{
-			cout << p.uniqId << " | " << p.productName << endl;
-			found = true;
-		}
+		cout << "Invalid Category" << endl;
+		return;
 	}
-	if (!found) cout << "Invalid Category" << endl;
+
+	for (const Product& p : *list)
+	{
+		cout << p.uniqId << " | " << p.productName << endl;
+	}
 }
+
 
 void evalCommand(string line)
 {
