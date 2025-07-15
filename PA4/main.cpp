@@ -81,6 +81,7 @@ public:
 };
 
 SimpleMap<string, Product> productMap;
+SimpleMap<string, vector<Product>> categoryMap;
 vector<Product> allProducts;
 
 void printHelp()
