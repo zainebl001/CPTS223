@@ -121,11 +121,11 @@ void printStatistics(const vector<double> &durations)
     }
     double stdDev = sqrt(variance / durations.size());
 
-    cout << "\n=== Statistics ===\n";
+    cout << "=== Statistics ===\n";
     cout << "Min Time: " << minTime << " ms\n";
     cout << "Max Time: " << maxTime << " ms\n";
     cout << "Average Time: " << avgTime << " ms\n";
-    cout << "Standard Deviation: " << stdDev << " ms\n";
+    cout << "Standard Deviation: " << stdDev << " ms\n\n";
 }
 
 int main()
@@ -157,10 +157,43 @@ int main()
         chrono::duration<double, milli> elapsed = end - start;
         durations.push_back(elapsed.count());
 
-        cout << "Trial " << trial + 1 << " duration: " << elapsed.count() << " ms\n";
+        cout << "InsertionTrial " << trial + 1 << ": " << elapsed.count() << " ms\n";
     }
+	printStatistics(durations);
 
+	durations.clear();
+	for (int trial = 0; trial < TRIALS; ++trial)
+	{
+		vector<int> data(N);
+		for (int i = 0; i < N; ++i)
+		{
+			data[i] = rand() % (MAX_VAL + 1);
+		}
+		auto start = chrono::high_resolution_clock::now();
+		quickSort(data);
+		auto end = chrono::high_resolution_clock::now();
+		chrono::duration<double, milli> elapsed = end - start;
+		durations.push_back(elapsed.count());
+		cout << "QuickSort Trial " << trial + 1 << ": " << elapsed.count() << " ms\n";
+	}
     printStatistics(durations);
+
+	durations.clear();
+for (int trial = 0; trial < TRIALS; ++trial)
+{
+	vector<int> data(N);
+	for (int i = 0; i < N; ++i)
+	{
+		data[i] = rand() % (MAX_VAL + 1);
+	}
+	auto start = chrono::high_resolution_clock::now();
+	shellSort(data);
+	auto end = chrono::high_resolution_clock::now();
+	chrono::duration<double, milli> elapsed = end - start;
+	durations.push_back(elapsed.count());
+	cout << "ShellSort Trial " << trial + 1 << ": " << elapsed.count() << " ms\n";
+}
+	printStatistics(durations); 
 
 	durations.clear();
 	for (int trial = 0; trial < TRIALS; ++trial)
@@ -178,6 +211,5 @@ int main()
 		cout << "HeapSort Trial " << trial + 1 << ": " << elapsed.count() << " ms\n";
 	}
 	printStatistics(durations);
-
     return 0;
 }
