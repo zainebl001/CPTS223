@@ -12,7 +12,7 @@ struct Product
 	string uniqId;
 	string productName;
 	string category;
-	double sellingPrice;
+	double sellingPrice = 0.0;
 };
 
 template<typename K, typename V>
@@ -105,6 +105,20 @@ void loadCSV(const string& filename)
 		Product p;
 		getline(ss, p.uniqId, ',');
 		getline(ss, p.productName, ',');
+		for (int i = 0; i < 5; ++i) getline(ss, token, ',');
+
+		getline(ss, token, ',');
+		if (!token.empty() && token[0] == '$')
+			token = token.substr(1);
+		try
+		{
+			p.sellingPrice = stod(token);
+		}
+		catch (...)
+		{
+			p.sellingPrice = 0.0;
+		}
+
 		getline(ss, token, ',');
 		getline(ss, token, ',');
 		getline(ss, p.category, ',');
@@ -148,14 +162,36 @@ void handleFind(const string& id)
 	}
 }
 
-void handleListInventory(const string& category)
+void handleListInventory(const string& args)
 {
+	stringstream ss(args);
+	string category, method, order;
+	ss >> category >> method >> order;
+
 	vector<Product>* list = categoryMap.get(category);
 	if (!list)
 	{
 		cout << "Invalid Category" << endl;
 		return;
 	}
+
+	vector<Product> result = *list;
+
+	bool usemergeSort = (method == "merge" || order == "merge");
+	bool descending = (method == "desc" || order == "desc");
+	auto ascendingComp = [](const Product& a, const Product& b)
+	{
+		return a.sellingPrice < b.sellingPrice;
+	};
+	auto descendingComp = [](const Product& a, const Product& b)
+	{
+		return a.sellingPrice > b.sellingPrice;
+	};
+
+	if (usemergeSort)
+	mergeSort(result, descending ? descendingComp : ascendingComp);
+	else
+	insertionSort(result, descending ? descendingComp : ascendingComp);
 
 	for (const Product& p : *list)
 	{
@@ -192,6 +228,56 @@ void bootStrap()
     cout << " enter :quit to exit. or :help to list supported commands." << endl;
     loadCSV("marketing_sample_for_amazon_com-ecommerce__20200101_20200131__10k_data.csv");
     cout << "\n> ";
+}
+
+template <typename T, typename Comparator>
+void insertionSort(vector<T>& vec, Comparator comp)
+{
+	for (size_t i = 1; i < vec.size(); ++i)
+	{
+		T key = vec[i];
+		int j = i - 1;
+		while (j >= 0 && comp(key, vec[j]))
+		{
+			vec[j + 1] = vec[j];
+			--j;
+		}
+		vec[j+1] = key;
+	}
+}
+
+template <typename T, typename Comparator>
+void merge(vector<T>& vec, int left, int mid, int right, Comparator comp)
+{
+	vector<T> leftVec(vec.begin() + left, vec.begin() + mid + 1);
+	vector<T> rightVec(vec.begin() + mid + 1, vec.begin() + right + 1);
+	int i = 0, j = 0, k = left;
+	while (i < leftVec.size() && j < rightVec.size())
+	{
+		if (comp(leftVec[i], rightVec[j]))
+		vec[k++] = leftVec[i++];
+		else
+		vec[k++] = rightVec[j++];
+	}
+	while (i < leftVec.size()) vec[k++] = leftVec[i++];
+	while (j < rightVec.size()) vec[k++] = leftVec[j++];
+}
+
+template <typename T, typename Comparator>
+void mergeSort(vector<T>& vec, int left, int right, Comparator comp)
+{
+	if (left >= right) return;
+	int mid = left + (right - left) / 2;
+	mergeSort(vec, left, mid, comp);
+	mergeSort(vec, mid + 1, right, comp);
+	merge(vec, left, mid, right, comp);
+}
+
+template <typename T, typename Comparator>
+void mergeSort(vector<T>& vec, Comparator comp)
+{
+	if (vec.empty()) return;
+	mergeSort(vec, 0, vec.size() - 1, comp);
 }
 
 int main(int argc, char const *argv[])
