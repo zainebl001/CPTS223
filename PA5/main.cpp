@@ -14,7 +14,7 @@ struct Product
 	string category;
 	double sellingPrice = 0.0;
 };
-
+ 
 template<typename K, typename V>
 class SimpleMap
 {
@@ -84,6 +84,8 @@ public:
 SimpleMap<string, Product> productMap;
 SimpleMap<string, vector<Product>> categoryMap;
 vector<Product> allProducts;
+void handleListInventory(const string& args);
+
 
 void printHelp()
 {
@@ -105,8 +107,11 @@ void loadCSV(const string& filename)
 		Product p;
 		getline(ss, p.uniqId, ',');
 		getline(ss, p.productName, ',');
-		for (int i = 0; i < 5; ++i) getline(ss, token, ',');
-
+		getline(ss, token, ',');
+		getline(ss, token, ',');
+		getline(ss, p.category, ',');
+		getline(ss, token, ',');
+		getline(ss, token, ',');
 		getline(ss, token, ',');
 		if (!token.empty() && token[0] == '$')
 			token = token.substr(1);
@@ -118,10 +123,8 @@ void loadCSV(const string& filename)
 		{
 			p.sellingPrice = 0.0;
 		}
-
 		getline(ss, token, ',');
 		getline(ss, token, ',');
-		getline(ss, p.category, ',');
 		if (p.category.empty()) p.category = "NA";
 		allProducts.push_back(p);
 		productMap.put(p.uniqId, p);
@@ -161,44 +164,6 @@ void handleFind(const string& id)
 		cout << "Inventory/Product not found\n";
 	}
 }
-
-void handleListInventory(const string& args)
-{
-	stringstream ss(args);
-	string category, method, order;
-	ss >> category >> method >> order;
-
-	vector<Product>* list = categoryMap.get(category);
-	if (!list)
-	{
-		cout << "Invalid Category" << endl;
-		return;
-	}
-
-	vector<Product> result = *list;
-
-	bool usemergeSort = (method == "merge" || order == "merge");
-	bool descending = (method == "desc" || order == "desc");
-	auto ascendingComp = [](const Product& a, const Product& b)
-	{
-		return a.sellingPrice < b.sellingPrice;
-	};
-	auto descendingComp = [](const Product& a, const Product& b)
-	{
-		return a.sellingPrice > b.sellingPrice;
-	};
-
-	if (usemergeSort)
-	mergeSort(result, descending ? descendingComp : ascendingComp);
-	else
-	insertionSort(result, descending ? descendingComp : ascendingComp);
-
-	for (const Product& p : *list)
-	{
-		cout << p.uniqId << " | " << p.productName << endl;
-	}
-}
-
 
 void evalCommand(string line)
 {
@@ -251,7 +216,8 @@ void merge(vector<T>& vec, int left, int mid, int right, Comparator comp)
 {
 	vector<T> leftVec(vec.begin() + left, vec.begin() + mid + 1);
 	vector<T> rightVec(vec.begin() + mid + 1, vec.begin() + right + 1);
-	int i = 0, j = 0, k = left;
+	size_t i = 0, j = 0;
+	int k = left;
 	while (i < leftVec.size() && j < rightVec.size())
 	{
 		if (comp(leftVec[i], rightVec[j]))
@@ -260,7 +226,7 @@ void merge(vector<T>& vec, int left, int mid, int right, Comparator comp)
 		vec[k++] = rightVec[j++];
 	}
 	while (i < leftVec.size()) vec[k++] = leftVec[i++];
-	while (j < rightVec.size()) vec[k++] = leftVec[j++];
+	while (j < rightVec.size()) vec[k++] = rightVec[j++];
 }
 
 template <typename T, typename Comparator>
@@ -278,6 +244,43 @@ void mergeSort(vector<T>& vec, Comparator comp)
 {
 	if (vec.empty()) return;
 	mergeSort(vec, 0, vec.size() - 1, comp);
+}
+
+void handleListInventory(const string& args)
+{
+	stringstream ss(args);
+	string category, method, order;
+	ss >> category >> method >> order;
+
+	vector<Product>* list = categoryMap.get(category);
+	if (!list)
+	{
+		cout << "Invalid Category" << endl;
+		return;
+	}
+
+	vector<Product> result = *list;
+
+	bool usemergeSort = (method == "merge" || order == "merge");
+	bool descending = (method == "desc" || order == "desc");
+	auto ascendingComp = [](const Product& a, const Product& b)
+	{
+		return a.sellingPrice < b.sellingPrice;
+	};
+	auto descendingComp = [](const Product& a, const Product& b)
+	{
+		return a.sellingPrice > b.sellingPrice;
+	};
+
+	if (usemergeSort)
+	mergeSort(result, descending ? descendingComp : ascendingComp);
+	else
+	insertionSort(result, descending ? descendingComp : ascendingComp);
+
+	for (const Product& p : result)
+	{
+		cout << p.uniqId << " | " << p.productName << endl;
+	}
 }
 
 int main(int argc, char const *argv[])
